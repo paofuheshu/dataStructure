@@ -12,12 +12,17 @@ public class InsertSort {
 
     public static void main(String[] args) {
         int[] array = {101, 34, 119, 1};
-        insertSort(array);
+        int[] testArray = new int[80000];
+        for (int i = 0; i < 80000; i++) {
+            testArray[i] = (int) (Math.random() * 80000);
+        }
+        insertSort(testArray);
     }
 
     public static void insertSort(int[] array) {
         int insertValue = 0;
         int insertIndex = 0;
+        long start = System.currentTimeMillis();
         for (int i = 1; i < array.length; i++) {
             insertValue = array[i];
             insertIndex = i - 1;
@@ -33,6 +38,8 @@ public class InsertSort {
                 array[insertIndex + 1] = insertValue;
             }
         }
-        System.out.println(Arrays.toString(array));
+        long end = System.currentTimeMillis();
+        System.out.println("排序共花费了：" + (end - start) + "毫秒");
+//        System.out.println(Arrays.toString(array));
     }
 }
