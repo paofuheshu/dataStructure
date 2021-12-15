@@ -29,7 +29,7 @@ public class InsertSort {
                 array[insertIndex + 1] = array[insertIndex];
                 insertIndex--;
             }
-            if (insertIndex + 1 == i) {
+            if (insertIndex + 1 != i) {
                 array[insertIndex + 1] = insertValue;
             }
         }
