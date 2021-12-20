@@ -13,7 +13,7 @@ public class BinarySearch {
 
     public static void main(String[] args) {
         int[] array = {1, 8, 10, 89, 100, 100, 123};
-        System.out.println(binarySearch1(array, 0, array.length - 1, 100));
+        System.out.println(binarySearch1(array, 0, array.length - 1, 8));
         System.out.println(binarySearch2(array, 0, array.length - 1, 100));
     }
 
@@ -26,6 +26,7 @@ public class BinarySearch {
      * @return  int
      */
     public static int binarySearch1(int[] array, int left, int right, int value) {
+        System.out.println("方法调用了");
         // 当left > right时，说明递归了整个数组，但是没有找到
         if (left > right) {
             return -1;
