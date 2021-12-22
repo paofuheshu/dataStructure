@@ -6,6 +6,10 @@ import lombok.Data;
  * @author zhangqiang
  * @version 1.0
  * @date 2021/12/22 20:20
+ * 1：前序遍历: 先输出父节点，再遍历左子树和右子树
+ * 2：中序遍历: 先遍历左子树，再输出父节点，再遍历右子树
+ * 3：后序遍历: 先遍历左子树，再遍历右子树，最后输出父节点
+ * 小结: 看输出父节点的顺序，就确定是前序，中序还是后序
  */
 public class BinaryTreeDemo {
 
