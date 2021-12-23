@@ -41,6 +41,11 @@ public class BinaryTreeDemo {
         System.out.println("中序遍历查找-->" + binaryTree.midOrderFind(number));
         // 后序遍历查找
         System.out.println("后序遍历查找-->" + binaryTree.postOrderFind(number));
+        System.out.println("删除前前序遍历为：");
+        binaryTree.preOrder();
+        binaryTree.deleteNode(3);
+        System.out.println("删除后前序遍历为：");
+        binaryTree.preOrder();
     }
 }
 
@@ -108,6 +113,20 @@ class BinaryTree {
             return this.root.postOrderFind(number);
         } else {
             return null;
+        }
+    }
+
+    /**
+     * 删除子节点
+     * @param number 节点编号
+     */
+    public void deleteNode(int number) {
+        if (this.root != null) {
+            if (this.root.getNumber() == number) {
+                this.root = null;
+            }  else {
+                this.root.deleteNode(number);
+            }
         }
     }
 }
@@ -262,6 +281,30 @@ class HeroNode {
             return this;
         } else {
             return null;
+        }
+    }
+
+    /**
+     * 删除节点
+     * 此处删除规则：
+     * 如果删除的节点是叶子节点，则删除该节点
+     * 如果删除的节点是非叶子节点，则删除该子树
+     * @param number node编号
+     */
+    public void deleteNode(int number) {
+        if (this.left != null && this.left.number == number) {
+            this.left = null;
+            return;
+        }
+        if (this.right != null && this.right.number == number) {
+            this.right = null;
+            return;
+        }
+        if (this.left != null) {
+            this.left.deleteNode(number);
+        }
+        if (this.right != null) {
+            this.right.deleteNode(number);
         }
     }
 }
