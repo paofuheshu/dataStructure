@@ -2,6 +2,7 @@ package com.paofu.data_structure.day04.tree.HuffTree;
 
 import lombok.Data;
 
+import java.io.*;
 import java.util.*;
 
 /**
@@ -15,15 +16,165 @@ public class HuffCode {
     private static Map<Byte, String> huffmanCode = new HashMap<>(16);
     private static StringBuilder stringBuilder = new StringBuilder();
 
-    public static void main(String[] args) {
-        String content = "i like like like java do you like a java";
-        byte[] contentBytes = content.getBytes();
-//        // 40
-//        HuffNode huffTree = createHuffTree(getNodes(contentBytes));
-//        getHuffTreeCode(huffTree);
-//        byte[] zip = zip(contentBytes, huffmanCode);
-        byte[] zip = huffZip(contentBytes);
-        System.out.println(Arrays.toString(zip));
+    public static void main(String[] args) throws IOException {
+//        String content = "i like like like java do you like a java";
+//        byte[] contentBytes = content.getBytes();
+////        // 40
+////        HuffNode huffTree = createHuffTree(getNodes(contentBytes));
+////        getHuffTreeCode(huffTree);
+////        byte[] zip = zip(contentBytes, huffmanCode);
+//        byte[] zip = huffZip(contentBytes);
+//        byte[] source = decode(huffmanCode, zip);
+//        System.out.println("原来的字符串：" + new String(source));
+        // 测试压缩文件的代码
+//        String srcFile = "D:\\test.png";
+//        String dstFile = "D:\\test.zip";
+//        zipFile(srcFile, dstFile);
+        // 测试解压文件
+        String srcFile = "D:\\test.zip";
+        String dstFile = "D:\\test_zip.png";
+        unZipFile(srcFile, dstFile);
+    }
+
+    /**
+     *  编写一个方法，对文件进行压缩
+     * @param srcFile 压缩文件的路径
+     * @param dstFile 压缩后文件路径
+     */
+    public static void zipFile(String srcFile, String dstFile) throws IOException {
+        // 创建输出流
+        OutputStream os = null;
+        // 创建文件的输入流
+        FileInputStream fileInputStream = null;
+        ObjectOutputStream objectOutputStream = null;
+        try {
+            fileInputStream = new FileInputStream(srcFile);
+            // 创建一个和原文件大小一样的byte[]
+            byte[] b = new byte[fileInputStream.available()];
+            // 读取文件
+            fileInputStream.read(b);
+            // 直接对源文件压缩
+            byte[] huffManBytes = huffZip(b);
+            // 创建文件的输出流， 存放压缩文件
+            os = new FileOutputStream(dstFile);
+            // 创建一个和文件输出流关联的ObjectOutPutStream
+            objectOutputStream = new ObjectOutputStream(os);
+            // 以对象流的方式写入赫夫曼编码  为了以后恢复原文件时使用
+            // 把赫夫曼编码后的字节数组写入压缩文件
+            objectOutputStream.writeObject(huffManBytes);
+            // 注意一定要把赫夫曼编码写入压缩文件
+            objectOutputStream.writeObject(huffmanCode);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            fileInputStream.close();
+            os.close();
+            objectOutputStream.close();
+        }
+    }
+
+    /**
+     * 对压缩文件的解压
+     * @param zipFile 解压文件
+     * @param dstFile 解压后的文件
+     */
+    public static void unZipFile(String zipFile, String dstFile) {
+        // 定义文件输入流
+        InputStream is = null;
+        // 定义对象输入流
+        ObjectInputStream ois = null;
+        // 定义文件输出流
+        OutputStream os = null;
+        try {
+            is = new FileInputStream(zipFile);
+            ois = new ObjectInputStream(is);
+            // 读取byte数组
+            byte[] huffManBytes = (byte[]) ois.readObject();
+            // 读取赫夫曼编码表
+            Map<Byte, String> huffManCodes = (Map<Byte, String>) ois.readObject();
+            // 解码
+            byte[] bytes = decode(huffManCodes, huffManBytes);
+            os = new FileOutputStream(dstFile);
+            os.write(bytes);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        } finally {
+            try {
+                os.close();
+                ois.close();
+                is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 将一个byte转成一个二进制的字符串
+     * @param flag 标识是否需要补高位
+     */
+    private static String byteToBitString(boolean flag, byte b) {
+        // 使用一个变量保存b
+        int temp = b;
+        if (flag) {
+            temp |= 256;
+        }
+        // 此处返回的是temp对应的二进制的补码
+        String string = Integer.toBinaryString(temp);
+        if (flag) {
+            return string.substring(string.length() - 8);
+        } else {
+            return string;
+        }
+    }
+
+    /**
+     * 对压缩数据的解码
+     * @param huffmanCodes  赫夫曼编码表
+     * @param huffManBytes  赫夫曼编码得到的字节数组
+     * @return 原来的字符串对应的数组
+     */
+    private static byte[] decode(Map<Byte, String> huffmanCodes, byte[] huffManBytes) {
+        // 1. 先得到huffManBytes对应的二进制的字符串
+        StringBuilder stringBuilder = new StringBuilder();
+        // 2. 将byte数组转成二进制的字符串
+        for (int i = 0; i < huffManBytes.length; i++) {
+            // 判断是不是最后一个字节
+            boolean flag = (i == huffManBytes.length - 1);
+            stringBuilder.append(byteToBitString(!flag, huffManBytes[i]));
+        }
+//        System.out.println("赫夫曼字节数组对应的二进制字符串=" + stringBuilder.toString());
+        // 把字符串按照指定的赫夫曼编码进行解码
+        Map<String, Byte> map = new HashMap<>(16);
+        for (Map.Entry<Byte, String> byteStringEntry : huffmanCodes.entrySet()) {
+            map.put(byteStringEntry.getValue(), byteStringEntry.getKey());
+        }
+
+        // 创建集合存放byte
+        List<Byte> list = new ArrayList<>();
+        for (int i = 0; i < stringBuilder.length();) {
+            int count = 1;
+            boolean flag = true;
+            Byte b = null;
+
+            while (flag) {
+                String key = stringBuilder.substring(i, i + count);
+                b = map.get(key);
+                if (b == null) {
+                    // 说明没有配到
+                    count++;
+                } else {
+                    flag = false;
+                }
+            }
+            list.add(b);
+            i += count;
+        }
+        byte[] b = new byte[list.size()];
+        for (int i = 0; i < b.length; i++) {
+            b[i] = list.get(i);
+        }
+        return b;
     }
 
     /**
