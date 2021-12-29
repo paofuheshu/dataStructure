@@ -1,4 +1,4 @@
-package com.paofu.data_structure.day04.tree;
+package com.paofu.data_structure.day04.tree.binaryTree;
 
 import lombok.Data;
 
