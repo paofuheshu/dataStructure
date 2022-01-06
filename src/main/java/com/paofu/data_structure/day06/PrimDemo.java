@@ -13,7 +13,7 @@ import java.util.Arrays;
 public class PrimDemo {
 
     public static void main(String[] args) {
-        char[] data = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+        char[] data = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
         int verxs = data.length;
         // 10000表示二者不连通
         int[][] weight = new int[][] {
