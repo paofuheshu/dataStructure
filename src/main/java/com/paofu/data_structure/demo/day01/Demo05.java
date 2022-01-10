@@ -48,7 +48,9 @@ import java.util.Map;
 public class Demo05 {
 
     public static void main(String[] args) {
-        String str = "MCMXCIV";
+        String str = "IX";
+        int i = romanToInt1(str);
+        System.out.println(i);
     }
 
 
@@ -62,11 +64,77 @@ public class Demo05 {
         map.put("D", 500);
         map.put("M", 1000);
         map.put("IV", 4);
-        map.put("IX", 90);
+        map.put("IX", 9);
         map.put("XL", 40);
         map.put("XC", 90);
         map.put("CD", 400);
         map.put("CM", 900);
-        return 1;
+        int step;
+        int res = 0;
+        for (int i = 0; i < s.length(); i += step) {
+            step = 2;
+            if (i + step > s.length()) {
+                step = 1;
+            }
+            String substring = s.substring(i, i + step);
+            Integer integer = map.get(substring);
+            if (integer == null) {
+                step = 1;
+                String substring1 = s.substring(i, i + step);
+                Integer integer1 = map.get(substring1);
+                res = res + integer1;
+            } else {
+                res = res + integer;
+            }
+        }
+        return res;
+    }
+
+    public static int romanToInt1(String s) {
+        s = s.replace("IV", "a");
+        s = s.replace("IX", "b");
+        s = s.replace("XL", "c");
+        s = s.replace("XC", "d");
+        s = s.replace("CD", "e");
+        s = s.replace("CM", "f");
+        int res = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int value = getValue(s.charAt(i));
+            res = res + value;
+        }
+        return res;
+    }
+
+    public static int getValue(char ch) {
+        switch (ch) {
+            case 'I':
+                return 1;
+            case 'V':
+                return 5;
+            case 'X':
+                return 10;
+            case 'L':
+                return 50;
+            case 'C':
+                return 100;
+            case 'D':
+                return 500;
+            case 'M':
+                return 1000;
+            case 'a':
+                return 4;
+            case 'b':
+                return 9;
+            case 'c':
+                return 40;
+            case 'd':
+                return 90;
+            case 'e':
+                return 400;
+            case 'f':
+                return 900;
+            default:
+                return 0;
+        }
     }
 }
