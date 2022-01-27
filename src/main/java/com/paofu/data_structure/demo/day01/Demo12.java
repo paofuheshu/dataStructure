@@ -27,10 +27,27 @@ public class Demo12 {
 
     public static int maxSubArray(int[] nums) {
         int res = 0;
+        if (nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+
         return res;
     }
 
     public static int divideAndConquer(int begin, int end, int[] nums) {
+        int leftTemp = nums[0];
+        int rightTemp = nums[begin];
+        for (int i = 1; i < begin; i++) {
+            leftTemp = leftTemp + nums[i];
+            
+        }
+
+        for (int i = begin + 1; i < end; i++) {
+            rightTemp = rightTemp + nums[i];
+        }
         return 0;
     }
 }

@@ -30,18 +30,41 @@ import java.util.Stack;
 public class Demo14 {
 
     public static void main(String[] args) {
-        int[] digits = {4, 3, 2, 1};
+        int[] digits = {9};
         System.out.println(Arrays.toString(plusOne(digits)));
     }
 
     public static int[] plusOne(int[] digits) {
-        Stack<Integer> stack = new Stack<>();
-        Stack<Integer> res = new Stack<>();
+        int[] resList = new int[digits.length];
+        int count = digits.length - 1;
         boolean flag = false;
-        for (int digit : digits) {
-            stack.push(digit);
+        int pop = digits[digits.length - 1];
+        if (pop == 9) {
+            pop = 0;
+            flag = true;
+        } else {
+            pop = pop + 1;
         }
-
-        return null;
+        resList[count] = pop;
+        for (int i = digits.length - 2; i >= 0; i--) {
+            int integer = digits[i];
+            if (flag) {
+                if (integer == 9) {
+                    integer = 0;
+                } else {
+                    integer = integer + 1;
+                    flag = false;
+                }
+            }
+            resList[--count] = integer;
+        }
+        if (!flag) {
+            return resList;
+        } else {
+            int[] resArray = new int[digits.length + 1];
+            resArray[0] = 1;
+            System.arraycopy(resList, 0, resArray, 1, resList.length);
+            return resArray;
+        }
     }
 }
