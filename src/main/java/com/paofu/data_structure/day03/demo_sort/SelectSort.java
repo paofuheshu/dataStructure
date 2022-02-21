@@ -79,7 +79,6 @@ public class SelectSort {
         for (int i = 0; i < array.length - 1; i++) {
             int min = array[i];
             int minIndex = i;
-            int temp;
             for (int j = i + 1; j < array.length; j++) {
                 if (array[j] < min) {
                     min = array[j];

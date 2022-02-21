@@ -20,8 +20,9 @@ public class ShellSort {
         for (int i = 0; i < 80000; i++) {
             testArray1[i] = (int) (Math.random() * 80000);
         }
-        shellSortExchange(testArray);
-        shellSortMove(testArray1);
+//        shellSortExchange(testArray);
+        shellSortMove(array);
+//        shellSortByStep(array);
     }
 
     /**
@@ -97,7 +98,7 @@ public class ShellSort {
                 }
             }
         }
-        System.out.println("希尔排序第二轮排序后为：" + Arrays.toString(array));
+        System.out.println("希尔排序第三轮排序后为：" + Arrays.toString(array));
     }
 
     /**
@@ -123,9 +124,31 @@ public class ShellSort {
                     array[j] = temp;
                 }
             }
-//            System.out.println("希尔排序第" + (++count) + "轮排序后为：" + Arrays.toString(array));
+            System.out.println("希尔排序第" + (++count) + "轮排序后为：" + Arrays.toString(array));
         }
         long end = System.currentTimeMillis();
         System.out.println("排序共花费了：" + (end - start) + "毫秒");
+    }
+
+    public static void test(int[] array) {
+        int temp = 0;
+        int count = 0;
+        for (int gap = array.length / 2; gap > 0; gap /= 2) {
+            // 希尔排序的第gap轮排序
+            // 将10个数据分为了gap组
+            for (int i = gap; i < array.length; i++) {
+                int j = i;
+                temp = array[j];
+                if (array[j] < array[j - gap]) {
+                    while (j - gap >= 0 && temp < array[j - gap]) {
+                        // 移动
+                        array[j] = array[j - gap];
+                        j -= gap;
+                    }
+                    array[j] = temp;
+                }
+            }
+            System.out.println("希尔排序第" + (++count) + "轮排序后为：" + Arrays.toString(array));
+        }
     }
 }

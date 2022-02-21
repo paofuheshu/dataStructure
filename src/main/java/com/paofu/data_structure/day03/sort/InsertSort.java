@@ -11,12 +11,12 @@ import java.util.Arrays;
 public class InsertSort {
 
     public static void main(String[] args) {
-        int[] array = {101, 34, 119, 1};
+        int[] array = {10, 34, 19, 1, 46};
         int[] testArray = new int[80000];
         for (int i = 0; i < 80000; i++) {
             testArray[i] = (int) (Math.random() * 80000);
         }
-        insertSort(testArray);
+        insertSort(array);
     }
 
     public static void insertSort(int[] array) {
@@ -37,6 +37,7 @@ public class InsertSort {
             if (insertIndex + 1 != i) {
                 array[insertIndex + 1] = insertValue;
             }
+            System.out.println("第" + i + "次排序后数组为：" + Arrays.toString(array));
         }
         long end = System.currentTimeMillis();
         System.out.println("排序共花费了：" + (end - start) + "毫秒");
