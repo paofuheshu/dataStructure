@@ -17,7 +17,7 @@ public class BubbleSort {
     }
 
     public static void bubbleSort(int[] array) {
-        int temp = 0;
+        int temp;
         for (int i = 0; i < array.length - 1; i++) {
             for (int j = 0; j < array.length - i - 1; j++) {
                 if (array[j] > array[j + 1]) {
@@ -35,7 +35,7 @@ public class BubbleSort {
      * @param array  数组
      */
     public static void bubbleSort1(int[] array) {
-        int temp = 0;
+        int temp;
         // 表示是否进行过交换
         boolean flag = false;
         for (int i = 0; i < array.length - 1; i++) {
