@@ -3,6 +3,7 @@ package com.paofu.data_structure.demo.DynamicProgramming;
 import cn.hutool.core.collection.CollUtil;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -21,25 +22,28 @@ import java.util.List;
 public class Demo01 {
 
     public static void main(String[] args) {
-        String str = "babad";
-        System.out.println(str);
-        test("s");
+        test1();
     }
 
-    public static String test(String s) {
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        list.add(2);
-        list.add(3);
-        list.add(4);
-        list.add(5);
-        list.add(6);
-        list.add(7);
-        list.add(8);
-        List<Integer> page = CollUtil.page(2, 3, list);
-        for (Integer integer : page) {
-            System.out.println(integer);
+    public static void test1() {
+        // 物品的重量数组
+        int[] weight = {1, 4, 3};
+        // 物品的价值数组
+        int[] value = {1500, 3000, 2000};
+        // 背包的容量
+        int packWeight = 4;
+        // 物品的总数
+        int count = value.length;
+        // 二维数组 定义前i个物品在j容量的最大价值
+        int[][] result = new int[count + 1][packWeight + 1];
+
+        int[][] path = new int[count + 1][packWeight + 1];
+
+        // 第一列和第一行赋值为0
+        for (int i = 0; i <= count; i++) {
+            result[i][0] = 0;
         }
-        return "";
+        Arrays.fill(result[0], 0);
+
     }
 }
